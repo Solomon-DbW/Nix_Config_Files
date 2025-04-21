@@ -48,6 +48,9 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.windowManager.hyprland.enable = true;
+  programs.hyprland.enable = true;
+
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -58,7 +61,7 @@
   # Configure console keymap
   console.keyMap = "uk";
 
-  # Enable CUPS to print documents.
+# Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
@@ -95,6 +98,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  # programs.hyprland.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -111,20 +115,29 @@
 	zig
 	wl-clipboard  # For Wayland
 	xclip         # For X11 fallback (optional)
+	hyprland
+	waybar
+	xdg-desktop-portal-hyprland
+	swaybg
   ];
 
-  fonts.packages = with pkgs; [
-	noto-fonts
-	noto-fonts-cjk-sans
-	noto-fonts-emoji
-	liberation_ttf
-	fira-code
-	fira-code-symbols
-	mplus-outline-fonts.githubRelease
-	dina-font
-	proggyfonts
+	# NERD FONT
+	fonts.packages = with pkgs; [
+    		(nerdfonts.override { fonts = [ "FiraCode" ]; })
 	];
+	#  fonts.packages = with pkgs; [
+	# noto-fonts
+	# noto-fonts-cjk-sans
+	# noto-fonts-emoji
+	# liberation_ttf
+	# fira-code
+	# fira-code-symbols
+	# mplus-outline-fonts.githubRelease
+	# dina-font
+	# proggyfonts
+	# ];
 
+  # Number of nix-os versions shown at boot (more are created and shown at boot after running nixos-rebuild switch, which became annoying so I limited it to 1
   boot.loader.systemd-boot.configurationLimit = 1; # or any number you prefer
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -136,6 +149,9 @@
   # };
 
   # List services that you want to enable:
+  xdg.portal.enable = true;
+  xdg.portal.wlr.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
