@@ -119,7 +119,11 @@
 	waybar
 	xdg-desktop-portal-hyprland
 	swaybg
+    home-manager
   ];
+
+    # Enabling flakes
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 	# NERD FONT
 	fonts.packages = with pkgs; [
